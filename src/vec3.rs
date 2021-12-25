@@ -28,10 +28,35 @@ impl vec3{
         self.vector[2]        
     }
 
-    fn operator(&self) -> (f64, f64, f64){
-        (self.vector[0], self.vector[1], self.vector[2])
+    fn negate_operator(&self) -> (f64, f64, f64){
+        (-self.vector[0], -self.vector[1], -self.vector[2])
     }
 
-    
+    fn get_value_by_index(&self, i: i8) -> f64 {
+        self.vector[i as usize]
+    }    
 
+    fn get_value_by_ref(&self, i: i8) -> &f64 {
+        &self.vector[i as usize]
+    }
+    
+    fn add(&mut self, v: &Self) -> &Self {
+        self.vector[0 as usize] += v.x();
+        self.vector[1 as usize] += v.y();
+        self.vector[2 as usize] += v.z();
+
+        self
+    }
+
+    fn mult(&mut self, t: f64) -> &Self {
+        self.vector[0 as usize] *= t;
+        self.vector[1 as usize] *= t;
+        self.vector[2 as usize] *= t;
+
+        self
+    }
+
+    fn div(&mut self, t: f64) -> &Self{
+        self.vector *= 1/t
+    }
 }
