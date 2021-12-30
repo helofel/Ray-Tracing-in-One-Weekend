@@ -4,6 +4,7 @@ use std::io::prelude::*;
 pub fn ppm_image() {
     const WIDTH:i16 = 256;
     const HEIGHT:i16 = 256;
+    let color;
 
     println!("P3\n{} {}\n255", WIDTH, HEIGHT);
 
@@ -11,6 +12,7 @@ pub fn ppm_image() {
         println!("\rScanlines remaining: {} ", j);
         io::stdout().flush().ok().expect("Could not flush stdout");
         for i in 0..WIDTH {
+            /*
             let r:f64 = i as f64 / (WIDTH - 1) as f64;
             let g:f64 = j as f64 / (HEIGHT - 1) as f64;
             let b:f64 = 0.25;
@@ -19,6 +21,9 @@ pub fn ppm_image() {
             let ig: i16 = (255.999 * g) as i16;
             let ib: i16 = (255.999 * b) as i16;
             println!("{} {} {}", ir, ig, ib);
+            */
+            color = Vec3(i as f64 / (WIDTH - 1) as f64, j as f64 / (HEIGHT - 1) as f64, 0.25);
+            println!("{:?}", *color); 
         }
     }
     println!("\nDone");
