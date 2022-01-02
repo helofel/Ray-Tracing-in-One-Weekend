@@ -1,8 +1,8 @@
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
-use std::fmt::{self, Formatter, Display};
+use std::fmt::{self, Formatter, Debug, Display};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
-pub struct Vec3(f64, f64, f64);
+pub struct Vec3(pub f64, pub f64, pub f64);
 
 impl Vec3 {
     pub fn new(x: f64, y: f64, z: f64) -> Self {
@@ -88,7 +88,7 @@ impl Display for Vec3 {
     }
 }
 
-pub fn add(u: Vec3, v: Vec3) -> Vec3 {
+pub fn add<'a>(u:&'a Vec3, v:&'a Vec3) -> Vec3 {
     Vec3(u.x() + v.x(), u.y() + v.y() , u.z() + v.z())
 }
 
@@ -100,7 +100,7 @@ pub fn mult(u: Vec3, v: Vec3) -> Vec3 {
     Vec3(u.x() * v.x(), u.y() * v.y(), u.z() * v.z())
 }
 
-pub fn scale(t: f64, v: Vec3) -> Vec3 {
+pub fn scale<'a>(t: f64, v: &'a Vec3) -> Vec3 {
     Vec3(t * v.x(), t * v.y(), t * v.z())
 }
 /*
