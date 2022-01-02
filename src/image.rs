@@ -26,7 +26,7 @@ pub fn ppm_image() {
             println!("{} {} {}", ir, ig, ib);
             */
             color = Vec3(i as f64 / (WIDTH - 1) as f64, j as f64 / (HEIGHT - 1) as f64, 0.25);
-            println!("{:?}", color); 
+            println!("{:.3} {:.3} {:.3}", color.0, color.1, color.2); 
         }
     }
     println!("\nDone");

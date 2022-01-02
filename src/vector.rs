@@ -88,7 +88,7 @@ impl Display for Vec3 {
     }
 }
 
-pub fn add<'a>(u:&'a Vec3, v:&'a Vec3) -> Vec3 {
+pub fn add(u: Vec3, v: Vec3) -> Vec3 {
     Vec3(u.x() + v.x(), u.y() + v.y() , u.z() + v.z())
 }
 
@@ -100,7 +100,7 @@ pub fn mult(u: Vec3, v: Vec3) -> Vec3 {
     Vec3(u.x() * v.x(), u.y() * v.y(), u.z() * v.z())
 }
 
-pub fn scale<'a>(t: f64, v: &'a Vec3) -> Vec3 {
+pub fn scale(t: f64, v: Vec3) -> Vec3 {
     Vec3(t * v.x(), t * v.y(), t * v.z())
 }
 /*
@@ -109,11 +109,13 @@ pub fn mult_by_const<'a>(t: f64, v: Vec3) -> &'a Vec3 {
 }
 pub fn div_by_const<'a>(t: f64, v: Vec3) -> &'a Vec3 {
     &((1/t) * v)
+}*/
+pub fn unit_vector(v: Vec3) -> Vec3{
+    let result: Vec3;
+    result = Vec3(v.0 / v.length(), v.1 / v.length(), v.2 / v.length());
+    result
 }
-pub fn unit_vector<'a>(v: Vec3) -> &'a Vec3{
-    &(v / v.length())
-}
-*/
+
 pub fn dot(u: Vec3, v: Vec3) -> f64 {
     u.x() * v.x() + u.y() * v.y() + u.z() + v.z() 
 }
