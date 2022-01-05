@@ -26,18 +26,15 @@ pub fn ray_color(r: Ray) -> Vec3{
     add(scale(1.0 - t, Vec3::new(1.0, 1.0, 1.0)), scale(t, Vec3::new(0.5, 0.7, 1.0)))
 }
 
-pub fn ppm_image(b: Vec3, cor: Vec3, hor: Vec3, ver: Vec3) {
-    const WIDTH:i16 = 256;
-    const HEIGHT:i16 = 256;
+pub fn ppm_image(image_width: i32, image_height: i32, b: Vec3, cor: Vec3, hor: Vec3, ver: Vec3) {
+    println!("P3\n{} {}\n255", image_width, image_height);
 
-    println!("P3\n{} {}\n255", WIDTH, HEIGHT);
-
-    for j in (0..(HEIGHT)).rev() {
+    for j in (0..(image_height)).rev() {
         //println!("\rScanlines remaining: {} ", j);
         //io::stdout().flush().ok().expect("Could not flush stdout");
-        for i in 0..WIDTH {
-            let u: f64 = i as f64 / (WIDTH - 1) as f64;
-            let v: f64 = j as f64 / (HEIGHT -1) as f64;
+        for i in 0..image_width {
+            let u: f64 = i as f64 / (image_width - 1) as f64;
+            let v: f64 = j as f64 / (image_height -1) as f64;
             let m: Vec3 = sub(add(cor, add(scale(u, hor), scale(v, ver))), b);
             let r: Ray = Ray::new(b, m);
             let color: Vec3 = ray_color(r);
@@ -49,8 +46,8 @@ pub fn ppm_image(b: Vec3, cor: Vec3, hor: Vec3, ver: Vec3) {
 
 fn main() {
     //Image
-    let aspect_ratio: f64 = 16.0/9.0;
-    let image_width: i32 = 300;
+    let aspect_ratio: f64 = 16.0 / 9.0;
+    let image_width: i32 = 400;
     let image_height: i32 = image_width / aspect_ratio as i32;
 
     //Camera
@@ -66,6 +63,6 @@ fn main() {
     //ray_trace::image::ppm_image(); //cargo run > image.ppn | use google PPM viewer
 
     //Render
-    ppm_image(origin, lower_left_corner, horizontal, vertical);
+    ppm_image(image_width, image_height, origin, lower_left_corner, horizontal, vertical);
     
 }
