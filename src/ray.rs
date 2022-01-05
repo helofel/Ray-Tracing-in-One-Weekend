@@ -23,6 +23,8 @@ pub struct Ray <'a> {
         }
     }
 */
+#[derive(Copy, Clone)]
+
 pub struct Ray{
     pub b: Vec3,
     pub m: Vec3,

@@ -5,8 +5,21 @@ use std::io::prelude::*;
 use ray_trace::vector::*;
 use ray_trace::ray::*;
 
+pub fn hit_sphere(center: Vec3, radius: f64, r: Ray) -> bool {
+    let oc: Vec3 = sub(r.b, center);
+    let a: f64 = dot(r.m, r.m);
+    let b: f64 = 2.0 * dot(oc, r.m);
+    let c: f64 = dot(oc, oc) - radius * radius;
+    let discriminant: f64 = b * b - 4. * a * c;
+
+    discriminant > 0.
+}
 
 pub fn ray_color(r: Ray) -> Vec3{
+    let _r = &r;
+    if hit_sphere(Vec3::new(0., 0., -1.), 0.5, *_r) {
+        return Vec3::new(1., 0., 0.);
+    }
     let unit_direction: Vec3 = unit_vector(r.m);
     let t: f64 = 0.5 * (unit_direction.1 + 1.0);
 
@@ -27,7 +40,7 @@ pub fn ppm_image(b: Vec3, cor: Vec3, hor: Vec3, ver: Vec3) {
             let m: Vec3 = sub(add(cor, add(scale(u, hor), scale(v, ver))), b);
             let r: Ray = Ray::new(b, m);
             let color: Vec3 = ray_color(r);
-            println!("{:.3} {:.3} {:.3}", color.0, color.1, color.2); 
+            println!("{} {} {}", 255.999 * color.0, 255.999 * color.1, 255.999 * color.2); 
         }
     }
     //println!("\nDone");
