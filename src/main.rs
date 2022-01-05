@@ -25,6 +25,7 @@ pub fn ray_color(r: Ray) -> Vec3{
 
     add(scale(1.0 - t, Vec3::new(1.0, 1.0, 1.0)), scale(t, Vec3::new(0.5, 0.7, 1.0)))
 }
+
 pub fn ppm_image(b: Vec3, cor: Vec3, hor: Vec3, ver: Vec3) {
     const WIDTH:i16 = 256;
     const HEIGHT:i16 = 256;
