@@ -16,8 +16,7 @@ pub fn hit_sphere(center: Vec3, radius: f64, r: Ray) -> bool {
 }
 
 pub fn ray_color(r: Ray) -> Vec3{
-    let _r = &r;
-    if hit_sphere(Vec3::new(0., 0., -1.), 0.5, *_r) {
+    if hit_sphere(Vec3::new(0., 0., -1.), 0.5, r) {
         return Vec3::new(1., 0., 0.);
     }
     let unit_direction: Vec3 = unit_vector(r.m);
@@ -29,9 +28,9 @@ pub fn ray_color(r: Ray) -> Vec3{
 pub fn ppm_image(image_width: i32, image_height: i32, b: Vec3, cor: Vec3, hor: Vec3, ver: Vec3) {
     println!("P3\n{} {}\n255", image_width, image_height);
 
-    for j in (0..(image_height)).rev() {
+    for j in (0..image_height).rev() {
         //println!("\rScanlines remaining: {} ", j);
-        //io::stdout().flush().ok().expect("Could not flush stdout");
+        io::stdout().flush().ok().expect("Could not flush stdout");
         for i in 0..image_width {
             let u: f64 = i as f64 / (image_width - 1) as f64;
             let v: f64 = j as f64 / (image_height -1) as f64;
@@ -40,6 +39,7 @@ pub fn ppm_image(image_width: i32, image_height: i32, b: Vec3, cor: Vec3, hor: V
             let color: Vec3 = ray_color(r);
             println!("{} {} {}", 255.999 * color.0, 255.999 * color.1, 255.999 * color.2); 
         }
+
     }
     //println!("\nDone");
 }
@@ -60,9 +60,8 @@ fn main() {
     let vertical: Vec3 = Vec3::new(0., viewport_height, 0.);
     let lower_left_corner: Vec3 = sub(origin, sub(sub(scale(0.5, horizontal), scale(0.5, vertical)), Vec3::new(0., 0., focal_length)));
 
-    //ray_trace::image::ppm_image(); //cargo run > image.ppn | use google PPM viewer
+    //ray_trace::image::ppm_image(); //cargo run > image.ppm
 
     //Render
     ppm_image(image_width, image_height, origin, lower_left_corner, horizontal, vertical);
-    
 }
