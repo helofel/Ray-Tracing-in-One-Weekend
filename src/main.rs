@@ -5,24 +5,32 @@ use std::io::prelude::*;
 use ray_trace::vector::*;
 use ray_trace::ray::*;
 
-pub fn hit_sphere(center: Vec3, radius: f64, r: Ray) -> bool {
+pub fn hit_sphere(center: Vec3, radius: f64, r: Ray) -> f64 {
     let oc: Vec3 = sub(r.b, center);
     let a: f64 = dot(r.m, r.m);
     let b: f64 = 2.0 * dot(oc, r.m);
     let c: f64 = dot(oc, oc) - radius * radius;
     let discriminant: f64 = b * b - 4. * a * c;
 
-    discriminant > 0.
+    if discriminant < 0. {
+        return -1.0;
+    }
+
+    (-b - discriminant.sqrt() ) / (2.0 * a)
 }
 
 pub fn ray_color(r: Ray) -> Vec3{
-    if hit_sphere(Vec3::new(0., 0., -1.), 0.5, r) {
-        return Vec3::new(1., 0., 0.);
-    }
-    let unit_direction: Vec3 = unit_vector(r.m);
-    let t: f64 = 0.5 * (unit_direction.1 + 1.0);
+    let mut t: f64 = hit_sphere(Vec3::new(0., 0., -1.), 0.5, r);
 
-    add(scale(1.0 - t, Vec3::new(1.0, 1.0, 1.0)), scale(t, Vec3::new(0.5, 0.7, 1.0)))
+    if t > 0.0 {
+        let n: Vec3 = unit_vector(sub(at(r, t), Vec3::new(0., 0., -1.)));
+        return scale(0.5, Vec3::new(n.x() + 1., n.y() + 1., n.z() + 1.));
+    }
+
+    let unit_direction: Vec3 = unit_vector(r.m);
+    t = 0.5 * (unit_direction.y() + 1.);
+
+    add(scale(1.0 - t, Vec3::new(1., 1., 1.)), scale(t, Vec3::new(0.5, 0.7, 1.)))
 }
 
 pub fn ppm_image(image_width: i32, image_height: i32, b: Vec3, cor: Vec3, hor: Vec3, ver: Vec3) {

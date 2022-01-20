@@ -1,5 +1,5 @@
-use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
-use std::fmt::{self, Formatter, Debug, Display};
+// use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
+// use std::fmt::{self, Formatter, Debug, Display};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Vec3(pub f64, pub f64, pub f64);
@@ -49,11 +49,11 @@ pub fn div_by_const<'a>(t: f64, v: Vec3) -> &'a Vec3 {
     &((1/t) * v)
 }*/
 pub fn unit_vector(v: Vec3) -> Vec3{
-    Vec3(v.0 / v.length(), v.1 / v.length(), v.2 / v.length())
+    Vec3(v.x() / v.length(), v.y() / v.length(), v.z() / v.length())
 }
 
 pub fn dot(u: Vec3, v: Vec3) -> f64 {
-    u.x() * v.x() + u.y() * v.y() + u.z() + v.z() 
+    u.x() * v.x() + u.y() * v.y() + u.z() + v.z()
 }
 
 pub fn cross(u: Vec3, v: Vec3) -> Vec3 {
